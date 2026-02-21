@@ -1,6 +1,5 @@
 name: Manual Build APK
 
-# The workflow_dispatch event allows you to trigger this workflow manually from the GitHub Actions tab.
 on:
   workflow_dispatch:
 
@@ -19,11 +18,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Official action to configure Gradle securely and enable caching for faster builds
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      # FIX: Generate the missing gradlew file directly on the GitHub runner
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper --gradle-version 8.4
 
-      # Crucial step: Prevents "Permission denied" errors on Linux runners
+      # Now the file exists, so we can grant it permissions
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
